@@ -12,7 +12,7 @@ bool VoltarMenu(){
     while(true){
         printf("Deseja recomecar o processo(1) ou voltar ao menu(2)?\n");
         printf("Digite sua opcao aqui: ");
-        scanf(" %c", &opcao);
+        scanf("%c", &opcao);
         getchar();
         switch(opcao){
             case '1':
@@ -113,12 +113,12 @@ ListaClientes Registrar(ListaClientes lista_Clientes, FILE* file, bool* voltarMe
     }
 }
 
-void Logar(ListaClientes lista_Clientes, bool* voltarMenu){
+ListaClientes Logar(ListaClientes lista_Clientes, bool* voltarMenu){
     //Verificação de login
     FILE *file = fopen("usuario.txt", "rb");
     if (file == NULL){
         printf("Erro ao abrir o arquivo.");
-        return;
+        return lista_Clientes;
     }
 
     while(true){
@@ -130,21 +130,24 @@ void Logar(ListaClientes lista_Clientes, bool* voltarMenu){
         printf("Digite sua senha: ");
         char senha[50];
         scanf("%s", senha);
+        getchar();
+
         strcpy(lista_Clientes.clientes[lista_Clientes.qtdClientes].senha, senha);
 
         int i = 0;
         for( i ; i < sizeof(lista_Clientes.clientes)/sizeof(lista_Clientes.clientes[0]); i++){
             if(strcmp(cpf, lista_Clientes.clientes[i].cpf) == 0 && strcmp(senha, lista_Clientes.clientes[i].senha) == 0){
-                printf("Login efetuado com sucesso\n");
+                printf("Login efetuado com sucesso\n\n");
                 lista_Clientes.clienteAtual = i;
-                return;
+                *voltarMenu = false;
+                return lista_Clientes;
             }
         }
 
         printf("Login nao encontrado no sistema\n\n");
         *voltarMenu = VoltarMenu();
         if(*voltarMenu){
-            return;
+            return lista_Clientes;
         }
     }
 }
@@ -158,7 +161,7 @@ ListaClientes TxtToArray(ListaClientes lista_Clientes, FILE* file){
     int i = 0;
     int placeHolder = 0;
     for(i; i < sizeof(lista_Clientes.clientes) / sizeof(lista_Clientes.clientes[0]); i++){
-        if(strlen(lista_Clientes.clientes[i].cpf) == 0){
+        if(strlen(lista_Clientes.clientes[i].cpf) != 11){
             break;
         }else{
             placeHolder++;

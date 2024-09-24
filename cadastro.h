@@ -23,7 +23,7 @@ struct {
 
 bool VoltarMenu();
 //Logar
-void Logar(ListaClientes lista_Clientes, bool* voltarMenu);
+ListaClientes Logar(ListaClientes lista_Clientes, bool* voltarMenu);
 //Registrar
 ListaClientes Registrar(ListaClientes lista_Clientes, FILE* file, bool* voltarMenu);
 //TXT pro Array
