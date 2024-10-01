@@ -6,6 +6,25 @@ void ArrayToTXT(FILE* file, ListaClientes lista_Clientes){
     fclose(file);
 }   
 
+ListaClientes TxtToArray(ListaClientes lista_Clientes, FILE* file){
+    file = fopen("usuario.txt", "rb");
+    fread(lista_Clientes.clientes, sizeof(lista_Clientes.clientes), 1, file);
+    fclose(file);
+
+    //ATUALIZANDO QUANTIDADE DE CLIENTES
+    int i = 0;
+    int placeHolderForQtdClientes = 0;
+    for(i; i < sizeof(lista_Clientes.clientes) / sizeof(lista_Clientes.clientes[0]); i++){
+        if(strlen(lista_Clientes.clientes[i].cpf) != 11){
+            break;
+        }else{
+            placeHolderForQtdClientes++;
+        }
+    }
+    lista_Clientes.qtdClientes = placeHolderForQtdClientes;
+    return lista_Clientes;
+}
+
 bool VoltarMenu(){
     char opcao;
     bool voltarMenu;
@@ -36,6 +55,7 @@ ListaClientes Registrar(ListaClientes lista_Clientes, FILE* file, bool* voltarMe
         printf("Digite seu cpf -> Sem traco nem pontos: ");
         char cpf[50];
         scanf("%s", cpf);
+        getchar();
 
         bool cpfDuplicado = false;
         for (int i = 0; i < lista_Clientes.qtdClientes; i++) {
@@ -83,10 +103,8 @@ ListaClientes Registrar(ListaClientes lista_Clientes, FILE* file, bool* voltarMe
         //INPUT E VERIFICAÇÃO DA SENHA
         printf("Digite sua senha -> Entre 5 e 10 caracteres: ");
         char senha[50];
-
         scanf("%s", senha);
-        strcpy(lista_Clientes.clientes[lista_Clientes.qtdClientes].senha, senha);
-
+        getchar();
 
         if(strlen(senha) < 5 || strlen(senha) > 10){
             printf("Quantidade de caracteres invalido para senha\n\n");
@@ -109,12 +127,13 @@ ListaClientes Registrar(ListaClientes lista_Clientes, FILE* file, bool* voltarMe
 
         //PASSANDO REGISTRO PRO TXT 
         ArrayToTXT(file, lista_Clientes);
+        *voltarMenu = true;
         return lista_Clientes;
     }
 }
 
 ListaClientes Logar(ListaClientes lista_Clientes, bool* voltarMenu){
-    //Verificação de login
+   //Verificação de login
     FILE *file = fopen("usuario.txt", "rb");
     if (file == NULL){
         printf("Erro ao abrir o arquivo.");
@@ -125,14 +144,12 @@ ListaClientes Logar(ListaClientes lista_Clientes, bool* voltarMenu){
         printf("Digite seu cpf: ");
         char cpf[50];
         scanf("%s", cpf);
-        strcpy(lista_Clientes.clientes[lista_Clientes.qtdClientes].cpf, cpf);
+        getchar();
 
         printf("Digite sua senha: ");
         char senha[50];
         scanf("%s", senha);
         getchar();
-
-        strcpy(lista_Clientes.clientes[lista_Clientes.qtdClientes].senha, senha);
 
         int i = 0;
         for( i ; i < sizeof(lista_Clientes.clientes)/sizeof(lista_Clientes.clientes[0]); i++){
@@ -152,21 +169,3 @@ ListaClientes Logar(ListaClientes lista_Clientes, bool* voltarMenu){
     }
 }
 
-ListaClientes TxtToArray(ListaClientes lista_Clientes, FILE* file){
-    file = fopen("usuario.txt", "rb");
-    fread(lista_Clientes.clientes, sizeof(lista_Clientes.clientes), 1, file);
-    fclose(file);
-
-    //ATUALIZANDO QUANTIDADE DE CLIENTES
-    int i = 0;
-    int placeHolder = 0;
-    for(i; i < sizeof(lista_Clientes.clientes) / sizeof(lista_Clientes.clientes[0]); i++){
-        if(strlen(lista_Clientes.clientes[i].cpf) != 11){
-            break;
-        }else{
-            placeHolder++;
-        }
-    }
-    lista_Clientes.qtdClientes = placeHolder;
-    return lista_Clientes;
-}

@@ -12,6 +12,7 @@ struct{
     float saldoBitcoin;
     float saldoEthereum;
     float saldoRipple;
+
 }typedef Cliente;
 
 struct {
@@ -21,12 +22,19 @@ struct {
 
 }typedef ListaClientes;
 
+//Voltar Menu
 bool VoltarMenu();
+
 //Logar
 ListaClientes Logar(ListaClientes lista_Clientes, bool* voltarMenu);
+
 //Registrar
 ListaClientes Registrar(ListaClientes lista_Clientes, FILE* file, bool* voltarMenu);
+
 //TXT pro Array
 ListaClientes TxtToArray(ListaClientes lista_Clientes, FILE* file);
+
+//Array pro TXT
+void ArrayToTXT(FILE* file, ListaClientes lista_Clientes);
 
 #endif 

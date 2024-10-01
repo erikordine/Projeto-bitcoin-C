@@ -2,8 +2,10 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
-#ifndef BITICOIN_H
-#define BITICOIN_H
+#include <time.h>
+#include "cadastro.h"
+#ifndef CRIPTOMOEDAS_H
+#define CRIPTOMOEDAS_H
 
 struct{
 
@@ -14,10 +16,10 @@ struct{
 }typedef Criptomoedas;
 
 
-//DEPOSITAR
+//Depositar
 ListaClientes Depositar(ListaClientes lista_Clientes, FILE* file);
 
-//SACAR
+//Sacar
 ListaClientes Sacar(ListaClientes lista_Clientes, FILE* file);
 
 //Taxa comprarCriptomoeda

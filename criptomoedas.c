@@ -1,29 +1,39 @@
-#include "biticoin.h"
 #include <time.h>
+#include "criptomoedas.h"
 
-void EscreverLetraPorLetra(const char* texto, long delay) {
-    struct timespec req = {0};  // Estrutura para especificar o tempo
-    req.tv_sec = 0;             // Segundos (0 segundos)
-    req.tv_nsec = delay * 1000000L;  // Delay em nanosegundos (1 milissegundo = 1.000.000 nanosegundos)
 
-    printf("\n");
-    while (*texto) {
-        printf("%c", *texto++);
-        fflush(stdout);  // Força a saída imediata do caractere
-        nanosleep(&req, NULL);  // Atraso entre as letras
-    }
-    printf("\n");
-}
+// void EscreverLetraPorLetra(const char* texto, long delay) {
+//     struct timespec req = {0};  // Estrutura para especificar o tempo
+//     req.tv_sec = 0;             // Segundos (0 segundos)
+//     req.tv_nsec = delay * 1000000L;  // Delay em nanosegundos (1 milissegundo = 1.000.000 nanosegundos)
+
+//     printf("\n");
+//     while (*texto) {
+//         printf("%c", *texto++);
+//         fflush(stdout);  // Força a saída imediata do caractere
+//         nanosleep(&req, NULL);  // Atraso entre as letras
+//     }
+//     printf("\n");
+// }
 
 //DEPOSITAR EM REAIS
 ListaClientes Depositar(ListaClientes lista_Clientes, FILE* file){
   printf("Quanto voce deseja depositar?\n");
   printf("Digite a quantidade aqui - em numeros: ");
-  float deposito;
-  scanf("%f", &deposito);
+  char depositoChar[50];
+  scanf("%s", &depositoChar);
   getchar();
+
+  //Veriica se tem letra 
+  for(int i = 0; i < strlen(depositoChar); i++){
+      if((depositoChar[i] >= 65 && depositoChar[i] <= 90) || (depositoChar[i] >= 97 && depositoChar[i] <= 122)){
+          printf("Utilize apenas numeros\n\n");
+          return lista_Clientes;
+      }
+  }
+  float deposito = atof(depositoChar);
   lista_Clientes.clientes[lista_Clientes.clienteAtual].saldoReais += deposito;
-  ArrayToTXT(file, lista_Clientes);
+  printf("Deposito realizado com sucesso!!\n\n");
   return lista_Clientes; 
 }
 
@@ -31,21 +41,30 @@ ListaClientes Depositar(ListaClientes lista_Clientes, FILE* file){
 ListaClientes Sacar(ListaClientes lista_Clientes, FILE* file){
   
   char senha[10];
-  float saque;
 
   printf("\nSaldo na carteira: %.2f\n", lista_Clientes.clientes[lista_Clientes.clienteAtual].saldoReais);
   //Solicitar
   printf("Quanto deseja sacar?\n");
   printf("Digite a quantidade aqui - em numeros: ");
-  scanf("%f", &saque);
+  char saqueChar[50];
+  scanf("%s", &saqueChar);
   getchar();
 
+  //Verifica se tem letra 
+  for(int i = 0; i < strlen(saqueChar); i++){
+      if((saqueChar[i] >= 65 && saqueChar[i] <= 90) || (saqueChar[i] >= 97 && saqueChar[i] <= 122)){
+          printf("Utilize apenas numeros\n\n");
+          return lista_Clientes;
+      }
+  }
+  float saque = atof(saqueChar);
+  
   printf("Digite sua senha: ");
   scanf("%s", &senha);
   getchar();
 
   if (strcmp(senha, lista_Clientes.clientes[lista_Clientes.clienteAtual].senha) != 0){
-    printf("Senha incorreta!\n");
+    printf("Senha incorreta!\n\n");
     return lista_Clientes;
   }
   //PERGUNTAR SE DESEJA TENTAR NOVAMENTE
@@ -55,7 +74,6 @@ ListaClientes Sacar(ListaClientes lista_Clientes, FILE* file){
   } else {
     lista_Clientes.clientes[lista_Clientes.clienteAtual].saldoReais -= saque;
     printf("Saque realizado com sucesso! Novo saldo: %.2f\n\n", lista_Clientes.clientes[lista_Clientes.clienteAtual].saldoReais);
-    ArrayToTXT(file, lista_Clientes);
   }
 
   return lista_Clientes;
@@ -82,12 +100,12 @@ float CalcularTaxaCriptomoeda(char operacao[], char criptomoeda[], float valor){
   }
 }
 
-float CalcularPrecoCriptomoeda(char criptomoedaASerComprada[], float qtdCriptomoeda, Criptomoedas criptomoedas){
-    if (strcmp(criptomoedaASerComprada, "Bitcoin") == 0){
+float CalcularPrecoCriptomoeda(char criptomoedaASerOperada[], float qtdCriptomoeda, Criptomoedas criptomoedas){
+    if (strcmp(criptomoedaASerOperada, "Bitcoin") == 0){
       return qtdCriptomoeda * criptomoedas.bitcoin;
-    } else if (strcmp(criptomoedaASerComprada, "Ethereum") == 0){
+    } else if (strcmp(criptomoedaASerOperada, "Ethereum") == 0){
       return qtdCriptomoeda * criptomoedas.ethereum;
-    } else if (strcmp(criptomoedaASerComprada, "Ripple") == 0){
+    } else if (strcmp(criptomoedaASerOperada, "Ripple") == 0){
       return qtdCriptomoeda * criptomoedas.ripple;
     }
 }
@@ -171,7 +189,7 @@ void ConsultarSaldo(ListaClientes lista_Clientes){
 }
 
 //VENDER CRIPTOMOEDA
-ListaClientes VenderCriptomoeda (ListaClientes lista_Cliente, FILE* file, Criptomoedas criptomoedas ){
+ListaClientes VenderCriptomoeda (ListaClientes lista_Cliente, FILE* file, Criptomoedas criptomoedas){
   char sellcriptomoeda[10];
   float qtdCriptomoeda;
   char senha[50];
@@ -205,7 +223,7 @@ ListaClientes VenderCriptomoeda (ListaClientes lista_Cliente, FILE* file, Cripto
   getchar();
 
   if (qtdCriptomoeda > saldocripto) {
-    printf("Saldo insuficiente de %s para realizar a venda.\n", sellcriptomoeda);
+    printf("Saldo insuficiente de %s para realizar a venda.\n\n", sellcriptomoeda);
     return lista_Cliente;
   }
 
@@ -215,7 +233,7 @@ ListaClientes VenderCriptomoeda (ListaClientes lista_Cliente, FILE* file, Cripto
   printf("\n");
 
   if (strcmp(senha, lista_Cliente.clientes[lista_Cliente.clienteAtual].senha) != 0) {
-    printf("Senha invalida!\n");
+    printf("Senha invalida!\n\n");
     return lista_Cliente;
     //FAZER ELE DIGITAR A SENHA DNV OU VOLTAR PARA O MENU
 
@@ -230,7 +248,7 @@ ListaClientes VenderCriptomoeda (ListaClientes lista_Cliente, FILE* file, Cripto
   //Detalhes da venda
   printf("Criptomoeda: %s\n", sellcriptomoeda);
   printf("Quantidade a ser vendida: %.2f\n", qtdCriptomoeda);
-  printf("Preco a ser recebido: %.2f\n", valorrecebido);
+  printf("Valor de venda: %.2f\n", valorrecebido);
   printf("Valor final a ser recebido: %.2f\n", valorFinal);
 
   char confirmarVenda;
@@ -250,11 +268,9 @@ ListaClientes VenderCriptomoeda (ListaClientes lista_Cliente, FILE* file, Cripto
 
     lista_Cliente.clientes[lista_Cliente.clienteAtual].saldoReais += valorFinal;
 
-    ArrayToTXT(file, lista_Cliente);
-
-    printf("Venda realizada com sucesso! Novo saldo em Reais: %.2f", lista_Cliente.clientes[lista_Cliente.clienteAtual].saldoReais);
+    printf("Venda realizada com sucesso! Novo saldo em Reais: %.2f\n\n", lista_Cliente.clientes[lista_Cliente.clienteAtual].saldoReais);
   } else {
-    printf("Venda cancelada.\n");
+    printf("Venda cancelada.\n\n");
   }
 
   return lista_Cliente;
