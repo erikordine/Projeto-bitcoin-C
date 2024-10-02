@@ -31,15 +31,15 @@ O sistema oferece as seguintes funcionalidades:
   - Permite que os clientes façam depósitos em suas contas.
   - Valida a entrada para garantir que apenas valores numéricos sejam aceitos.
 
-3. Saque de Criptomoedas:
+4. Saque de Criptomoedas:
   - Permite que os clientes realizem saques de suas contas.
   - Assim como no depósito, a função valida a entrada para aceitar somente valores numéricos.
 
-4. Geração de Extratos de Transações:
+5. Geração de Extratos de Transações:
   - Gera um extrato detalhado das transações realizadas pelo cliente.
   - Exibe a data, valores e taxas das transações de forma clara e organizada.
 
-5. Geração de Extrato:
+6. Geração de Extrato:
   - VoltarMenu: Função que permite ao usuário escolher entre recomeçar o processo de cadastro ou voltar ao menu principal.
   - Proporciona uma experiência interativa ao usuário, evitando erros de navegação.
 
