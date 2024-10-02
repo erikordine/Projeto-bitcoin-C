@@ -1,3 +1,7 @@
+Criadores: 
+Érik Ordine Garcia     RA: 22.224.021-0
+Guilherme Rocha Santos RA: 22.124.061-7
+
 Este repositório contém a implementação de um sistema em C que gerencia carteiras de clientes, permitindo a compra e venda de criptomoedas. As operações são realizadas utilizando a leitura e escrita em arquivos binários para manter os registros das transações de criptomoedas.
 
 ** Estrutura de Arquivos **
