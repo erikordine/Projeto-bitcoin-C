@@ -1,11 +1,13 @@
 #include "cadastro.h"
 
+//PASSA AS INFORMAÇÕES DA STRUCT LISTA CLIENTES PRO TXT
 void ArrayToTXT(FILE* file, ListaClientes lista_Clientes){
     file = fopen("usuario.txt", "wb");
     fwrite(lista_Clientes.clientes, sizeof(lista_Clientes.clientes), 1, file);
     fclose(file);
 }   
 
+//PASSA AS INFORMAÇÕES DO CLIENTES PRA STRUCY LISTA CLIENTES
 ListaClientes TxtToArray(ListaClientes lista_Clientes, FILE* file){
     file = fopen("usuario.txt", "rb");
     fread(lista_Clientes.clientes, sizeof(lista_Clientes.clientes), 1, file);
@@ -25,6 +27,7 @@ ListaClientes TxtToArray(ListaClientes lista_Clientes, FILE* file){
     return lista_Clientes;
 }
 
+//FUNÇÃO QUE VAI RETORNAR SE O USUARIO DESEJA RECOMEÇAR SEU LOGIN OU REGISTRO OU RETORNAR AO MENU
 bool VoltarMenu(){
     char opcao;
     bool voltarMenu;
@@ -49,6 +52,8 @@ bool VoltarMenu(){
     }
 }
 
+
+//REALIZA O REGISTRO
 ListaClientes Registrar(ListaClientes lista_Clientes, FILE* file, bool* voltarMenu){
     //INPUT E VERIFICAÇÃO DO CPF
     while(true){
@@ -117,14 +122,19 @@ ListaClientes Registrar(ListaClientes lista_Clientes, FILE* file, bool* voltarMe
         }
 
         //PASSANDO REGISTRO PRO LISTACLIENTES E ATUALIZANDO QTDCLIENTES
+        
         strcpy(lista_Clientes.clientes[lista_Clientes.qtdClientes].senha, senha);
         strcpy(lista_Clientes.clientes[lista_Clientes.qtdClientes].cpf, cpf);
-        lista_Clientes.qtdClientes++;
+        char placeHolder[10];
+        snprintf(placeHolder, sizeof(placeHolder), "%d", lista_Clientes.qtdClientes);
+        strcat(placeHolder, ".txt");
+        strcpy(lista_Clientes.clientes[lista_Clientes.qtdClientes].extrato, placeHolder);
         lista_Clientes.clientes[lista_Clientes.qtdClientes].saldoReais = 0;
         lista_Clientes.clientes[lista_Clientes.qtdClientes].saldoBitcoin = 0;
-        lista_Clientes.clientes[lista_Clientes.qtdClientes].saldoEthereum= 0;
+        lista_Clientes.clientes[lista_Clientes.qtdClientes].saldoEthereum = 0;
         lista_Clientes.clientes[lista_Clientes.qtdClientes].saldoRipple = 0;
-
+        lista_Clientes.qtdClientes++;
+        
         //PASSANDO REGISTRO PRO TXT 
         ArrayToTXT(file, lista_Clientes);
         *voltarMenu = true;
@@ -132,6 +142,7 @@ ListaClientes Registrar(ListaClientes lista_Clientes, FILE* file, bool* voltarMe
     }
 }
 
+//REALIZA O LOGIN
 ListaClientes Logar(ListaClientes lista_Clientes, bool* voltarMenu){
    //Verificação de login
     FILE *file = fopen("usuario.txt", "rb");

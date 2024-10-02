@@ -8,11 +8,11 @@
 struct{
     char cpf[50];
     char senha[50];
+    char extrato[10];
     float saldoReais;
     float saldoBitcoin;
     float saldoEthereum;
-    float saldoRipple;
-
+    float saldoRipple;  
 }typedef Cliente;
 
 struct {
