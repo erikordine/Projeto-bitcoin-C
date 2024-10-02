@@ -57,7 +57,7 @@ O sistema oferece as seguintes funcionalidades:
 -> O cliente pode acessar seu extrato de transações a qualquer momento para visualizar suas atividades financeiras.
 
 
-** COmpilação e Execução **
+** Compilação e Execução **
 ## Para compilar o projeto, utilize o comando:
     gcc projeto.c
 ## Para executar o programa, use:
