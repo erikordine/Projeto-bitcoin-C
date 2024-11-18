@@ -59,7 +59,7 @@ O sistema oferece as seguintes funcionalidades:
 
 ** Compilação e Execução **
 ## Para compilar o projeto, utilize o comando:
-    gcc projeto.c
+    gcc projeto.c cadastro.c criptomoedas.c
 ## Para executar o programa, use:
     acc .\a.exe
 
