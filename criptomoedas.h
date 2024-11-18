@@ -15,6 +15,8 @@ struct{
 
 }typedef Criptomoedas;
 
+//Escreve Letra por Letra
+void EscreverLetraPorLetra(const char* texto, long delay);
 
 //Salvar Extrato
 void SalvarExtratoTXT(char operacao[], char qtd[], char criptomoeda[], char preco[], char taxa[], char arquivo[]);
@@ -44,9 +46,15 @@ ListaClientes Sacar(ListaClientes lista_Clientes, FILE* file);
 float CalcularTaxaCriptomoeda(char operacao[], char criptomoeda[], float valor);
 
 //Preco Criptomoeda
-float CalcularPrecoCriptomoeda(char criptomoedaASerComprada[], float qtdCriptomoeda, Criptomoedas criptomoedas);
+float CalcularPrecoCriptomoeda(char criptomoedaASerOperada[], float qtdCriptomoeda, Criptomoedas criptomoedas);
+
+//Compra Criptmoedas
+ListaClientes ComprarCriptomoeda(ListaClientes lista_Clientes, FILE* file, Criptomoedas criptomoedas);
 
 //Consultar saldo
 void ConsultarSaldo(ListaClientes lista_Clientes);
+
+//Venda Criptomoedas
+ListaClientes VenderCriptomoeda (ListaClientes lista_Cliente, FILE* file, Criptomoedas criptomoedas);
 
 #endif

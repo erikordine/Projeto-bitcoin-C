@@ -1,5 +1,5 @@
-#include "cadastro.c"
-#include "criptomoedas.c"
+#include "cadastro.h"
+#include "criptomoedas.h"
 #include <time.h>
 #include <stdlib.h>
 

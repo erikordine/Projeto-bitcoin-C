@@ -2,7 +2,7 @@
 #include "criptomoedas.h"
 
 
-void EscreverLetraPorLetra(const char* texto, long delay) {
+void EscreverLetraPorLetra(const char* texto, long delay){
     struct timespec req = {0};  // Estrutura para especificar o tempo
     req.tv_sec = 0;             // Segundos (0 segundos)
     req.tv_nsec = delay * 1000000L;  // Delay em nanosegundos (1 milissegundo = 1.000.000 nanosegundos)
