@@ -55,6 +55,12 @@ bool VoltarMenu(){
 
 //REALIZA O REGISTRO
 ListaClientes Registrar(ListaClientes lista_Clientes, FILE* file, bool* voltarMenu){
+    //VERIFICANDO SE O MÁXIMO DE CLIENTES FOI ATINGIDO
+    if(lista_Clientes.qtdClientes == 10){
+        printf("Quantidade maxima de clientes atingida (10) \n");
+        return lista_Clientes;
+    }
+
     //INPUT E VERIFICAÇÃO DO CPF
     while(true){
         printf("Digite seu cpf -> Sem traco nem pontos: ");
@@ -125,10 +131,8 @@ ListaClientes Registrar(ListaClientes lista_Clientes, FILE* file, bool* voltarMe
         
         strcpy(lista_Clientes.clientes[lista_Clientes.qtdClientes].senha, senha);
         strcpy(lista_Clientes.clientes[lista_Clientes.qtdClientes].cpf, cpf);
-        char placeHolder[10];
-        snprintf(placeHolder, sizeof(placeHolder), "%d", lista_Clientes.qtdClientes);
-        strcat(placeHolder, ".txt");
-        strcpy(lista_Clientes.clientes[lista_Clientes.qtdClientes].extrato, placeHolder);
+        strcat(cpf, ".txt");
+        strcpy(lista_Clientes.clientes[lista_Clientes.qtdClientes].extrato, cpf);
         lista_Clientes.clientes[lista_Clientes.qtdClientes].saldoReais = 0;
         lista_Clientes.clientes[lista_Clientes.qtdClientes].saldoBitcoin = 0;
         lista_Clientes.clientes[lista_Clientes.qtdClientes].saldoEthereum = 0;

@@ -19,7 +19,6 @@ struct {
     int qtdClientes;
     int clienteAtual;
     Cliente clientes[10];
-
 }typedef ListaClientes;
 
 //Voltar Menu
