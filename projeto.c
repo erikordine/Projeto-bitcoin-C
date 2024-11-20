@@ -46,7 +46,6 @@ int main(){
     //Menu Usuario
     Criptomoedas criptomoedas;
     FILE* criptoFile;
-    criptomoedas = TxtToCripto(criptoFile, criptomoedas);
 
     while(true){
         char opcao;
@@ -82,6 +81,7 @@ int main(){
             lista_Clientes = VenderCriptomoeda(lista_Clientes, file, criptomoedas);
             break;
           case '7':
+            criptomoedas = TxtToCripto(criptoFile, criptomoedas);
             criptomoedas = AtualizarCotacao(criptomoedas);
             break;
           case '8':
